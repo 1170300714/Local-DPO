@@ -1,0 +1,30 @@
+pytorch==2.2.0
+accelerate
+bitsandbytes==0.47.0
+transformers==4.49.0
+huggingface_hub
+hf_transfer>=0.1.8
+peft==0.12.0
+decord>=0.6.0
+imageio
+wandb
+pandas
+jsonlines
+torchvision<0.20.0
+torchao==0.9.0
+sentencepiece>=0.2.0
+imageio-ffmpeg>=0.5.1
+numpy==1.26.4
+pydantic==1.10.7
+./extensions/openlm-datasets/datasets-3.0.1.post-py3-none-any.whl
+yunchang==0.6.0
+ftfy==6.3.1
+triton==3.0.0
+pyiqa
+openai
+unidecode
+./extensions/openai-clip-1.0.1.tar.gz
+-e ./diffusers/
+-e ./extensions/flash-attention-3/
+-e ./extensions/sage-attention/
+-e ./extensions/CLIP/

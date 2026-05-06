@@ -1,0 +1,16 @@
+Metadata-Version: 2.2
+Name: flash_attn_3
+Version: 3.0.0b1
+Summary: FlashAttention-3
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: Unix
+Requires-Python: >=3.8
+Requires-Dist: torch
+Requires-Dist: einops
+Requires-Dist: packaging
+Requires-Dist: ninja
+Dynamic: classifier
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary

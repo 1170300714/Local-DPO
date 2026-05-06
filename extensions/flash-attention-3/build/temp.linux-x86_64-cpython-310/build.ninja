@@ -1,0 +1,58 @@
+ninja_required_version = 1.3
+cxx = c++
+nvcc_from_env = /usr/local/cuda/bin/nvcc
+nvcc = /usr/local/cuda/bin/nvcc
+
+cflags = -pthread -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -I/mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3 -I/mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/cutlass/include -I/home/huangzitong.hzt/.local/lib/python3.10/site-packages/torch/include -I/home/huangzitong.hzt/.local/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -I/home/huangzitong.hzt/.local/lib/python3.10/site-packages/torch/include/TH -I/home/huangzitong.hzt/.local/lib/python3.10/site-packages/torch/include/THC -I/usr/local/cuda/include -I/opt/conda/envs/python3.10.13/include/python3.10 -c
+post_cflags = -O3 -std=c++17 -DFLASHATTENTION_DISABLE_PAGEDKV -DFLASHATTENTION_DISABLE_APPENDKV -DFLASHATTENTION_DISABLE_LOCAL -DFLASHATTENTION_DISABLE_SOFTCAP -DFLASHATTENTION_DISABLE_PACKGQA -DFLASHATTENTION_DISABLE_FP16 -DFLASHATTENTION_DISABLE_FP8 -DFLASHATTENTION_DISABLE_VARLEN -DFLASHATTENTION_DISABLE_CLUSTER -DFLASHATTENTION_DISABLE_HDIM96 -DFLASHATTENTION_DISABLE_HDIM128 -DFLASHATTENTION_DISABLE_HDIM192 -DFLASHATTENTION_DISABLE_HDIM256 -DFLASHATTENTION_DISABLE_SM8x -DTORCH_API_INCLUDE_EXTENSION_H '-DPYBIND11_COMPILER_TYPE="_gcc"' '-DPYBIND11_STDLIB="_libstdcpp"' '-DPYBIND11_BUILD_ABI="_cxxabi1011"' -DTORCH_EXTENSION_NAME=flash_attn_3_cuda -D_GLIBCXX_USE_CXX11_ABI=0
+cuda_cflags = -I/mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3 -I/mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/cutlass/include -I/home/huangzitong.hzt/.local/lib/python3.10/site-packages/torch/include -I/home/huangzitong.hzt/.local/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -I/home/huangzitong.hzt/.local/lib/python3.10/site-packages/torch/include/TH -I/home/huangzitong.hzt/.local/lib/python3.10/site-packages/torch/include/THC -I/usr/local/cuda/include -I/opt/conda/envs/python3.10.13/include/python3.10 -c
+cuda_post_cflags = -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' --threads 2 -O3 -std=c++17 --ftemplate-backtrace-limit=0 --use_fast_math --resource-usage -lineinfo -DCUTE_SM90_EXTENDED_MMA_SHAPES_ENABLED -DCUTLASS_ENABLE_GDC_FOR_SM90 -DCUTLASS_DEBUG_TRACE_LEVEL=0 -DNDEBUG -gencode arch=compute_90a,code=sm_90a -DFLASHATTENTION_DISABLE_PAGEDKV -DFLASHATTENTION_DISABLE_APPENDKV -DFLASHATTENTION_DISABLE_LOCAL -DFLASHATTENTION_DISABLE_SOFTCAP -DFLASHATTENTION_DISABLE_PACKGQA -DFLASHATTENTION_DISABLE_FP16 -DFLASHATTENTION_DISABLE_FP8 -DFLASHATTENTION_DISABLE_VARLEN -DFLASHATTENTION_DISABLE_CLUSTER -DFLASHATTENTION_DISABLE_HDIM96 -DFLASHATTENTION_DISABLE_HDIM128 -DFLASHATTENTION_DISABLE_HDIM192 -DFLASHATTENTION_DISABLE_HDIM256 -DFLASHATTENTION_DISABLE_SM8x -DTORCH_API_INCLUDE_EXTENSION_H '-DPYBIND11_COMPILER_TYPE="_gcc"' '-DPYBIND11_STDLIB="_libstdcpp"' '-DPYBIND11_BUILD_ABI="_cxxabi1011"' -DTORCH_EXTENSION_NAME=flash_attn_3_cuda -D_GLIBCXX_USE_CXX11_ABI=0
+cuda_post_cflags_sm80 = -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' --threads 2 -O3 -std=c++17 --ftemplate-backtrace-limit=0 --use_fast_math --resource-usage -lineinfo -DCUTE_SM90_EXTENDED_MMA_SHAPES_ENABLED -DCUTLASS_ENABLE_GDC_FOR_SM90 -DCUTLASS_DEBUG_TRACE_LEVEL=0 -DNDEBUG -gencode arch=compute_80,code=sm_80 -DFLASHATTENTION_DISABLE_PAGEDKV -DFLASHATTENTION_DISABLE_APPENDKV -DFLASHATTENTION_DISABLE_LOCAL -DFLASHATTENTION_DISABLE_SOFTCAP -DFLASHATTENTION_DISABLE_PACKGQA -DFLASHATTENTION_DISABLE_FP16 -DFLASHATTENTION_DISABLE_FP8 -DFLASHATTENTION_DISABLE_VARLEN -DFLASHATTENTION_DISABLE_CLUSTER -DFLASHATTENTION_DISABLE_HDIM96 -DFLASHATTENTION_DISABLE_HDIM128 -DFLASHATTENTION_DISABLE_HDIM192 -DFLASHATTENTION_DISABLE_HDIM256 -DFLASHATTENTION_DISABLE_SM8x -DTORCH_API_INCLUDE_EXTENSION_H '-DPYBIND11_COMPILER_TYPE="_gcc"' '-DPYBIND11_STDLIB="_libstdcpp"' '-DPYBIND11_BUILD_ABI="_cxxabi1011"' -DTORCH_EXTENSION_NAME=flash_attn_3_cuda -D_GLIBCXX_USE_CXX11_ABI=0
+cuda_post_cflags_sm80_sm90 = -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' --threads 2 -O3 -std=c++17 --ftemplate-backtrace-limit=0 --use_fast_math --resource-usage -lineinfo -DCUTE_SM90_EXTENDED_MMA_SHAPES_ENABLED -DCUTLASS_ENABLE_GDC_FOR_SM90 -DCUTLASS_DEBUG_TRACE_LEVEL=0 -DNDEBUG -gencode arch=compute_90a,code=sm_90a -DFLASHATTENTION_DISABLE_PAGEDKV -DFLASHATTENTION_DISABLE_APPENDKV -DFLASHATTENTION_DISABLE_LOCAL -DFLASHATTENTION_DISABLE_SOFTCAP -DFLASHATTENTION_DISABLE_PACKGQA -DFLASHATTENTION_DISABLE_FP16 -DFLASHATTENTION_DISABLE_FP8 -DFLASHATTENTION_DISABLE_VARLEN -DFLASHATTENTION_DISABLE_CLUSTER -DFLASHATTENTION_DISABLE_HDIM96 -DFLASHATTENTION_DISABLE_HDIM128 -DFLASHATTENTION_DISABLE_HDIM192 -DFLASHATTENTION_DISABLE_HDIM256 -DFLASHATTENTION_DISABLE_SM8x -DTORCH_API_INCLUDE_EXTENSION_H '-DPYBIND11_COMPILER_TYPE="_gcc"' '-DPYBIND11_STDLIB="_libstdcpp"' '-DPYBIND11_BUILD_ABI="_cxxabi1011"' -DTORCH_EXTENSION_NAME=flash_attn_3_cuda -D_GLIBCXX_USE_CXX11_ABI=0 -gencode arch=compute_80,code=sm_80
+cuda_post_cflags_sm100 = -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' --threads 2 -O3 -std=c++17 --ftemplate-backtrace-limit=0 --use_fast_math --resource-usage -lineinfo -DCUTE_SM90_EXTENDED_MMA_SHAPES_ENABLED -DCUTLASS_ENABLE_GDC_FOR_SM90 -DCUTLASS_DEBUG_TRACE_LEVEL=0 -DNDEBUG -gencode arch=compute_100a,code=sm_100a -DFLASHATTENTION_DISABLE_PAGEDKV -DFLASHATTENTION_DISABLE_APPENDKV -DFLASHATTENTION_DISABLE_LOCAL -DFLASHATTENTION_DISABLE_SOFTCAP -DFLASHATTENTION_DISABLE_PACKGQA -DFLASHATTENTION_DISABLE_FP16 -DFLASHATTENTION_DISABLE_FP8 -DFLASHATTENTION_DISABLE_VARLEN -DFLASHATTENTION_DISABLE_CLUSTER -DFLASHATTENTION_DISABLE_HDIM96 -DFLASHATTENTION_DISABLE_HDIM128 -DFLASHATTENTION_DISABLE_HDIM192 -DFLASHATTENTION_DISABLE_HDIM256 -DFLASHATTENTION_DISABLE_SM8x -DTORCH_API_INCLUDE_EXTENSION_H '-DPYBIND11_COMPILER_TYPE="_gcc"' '-DPYBIND11_STDLIB="_libstdcpp"' '-DPYBIND11_BUILD_ABI="_cxxabi1011"' -DTORCH_EXTENSION_NAME=flash_attn_3_cuda -D_GLIBCXX_USE_CXX11_ABI=0
+cuda_dlink_post_cflags = 
+ldflags = 
+
+rule compile
+  command = $cxx -MMD -MF $out.d $cflags -c $in -o $out $post_cflags
+  depfile = $out.d
+  deps = gcc
+
+rule cuda_compile
+  depfile = $out.d
+  deps = gcc
+  command = $nvcc_from_env --generate-dependencies-with-compile --dependency-output $out.d $cuda_cflags -c $in -o $out $cuda_post_cflags
+
+rule cuda_compile_sm80
+  depfile = $out.d
+  deps = gcc
+  command = $nvcc_from_env --generate-dependencies-with-compile --dependency-output $out.d $cuda_cflags -c $in -o $out $cuda_post_cflags_sm80
+
+rule cuda_compile_sm80_sm90
+  depfile = $out.d
+  deps = gcc
+  command = $nvcc_from_env --generate-dependencies-with-compile --dependency-output $out.d $cuda_cflags -c $in -o $out $cuda_post_cflags_sm80_sm90
+
+rule cuda_compile_sm100
+  depfile = $out.d
+  deps = gcc
+  command = $nvcc_from_env --generate-dependencies-with-compile --dependency-output $out.d $cuda_cflags -c $in -o $out $cuda_post_cflags_sm100
+
+
+
+
+
+build /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/flash_api.o: compile /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/flash_api.cpp
+build /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/flash_fwd_combine.o: cuda_compile_sm80_sm90 /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/flash_fwd_combine.cu
+build /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/flash_prepare_scheduler.o: cuda_compile_sm80_sm90 /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/flash_prepare_scheduler.cu
+build /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/instantiations/flash_bwd_hdim64_bf16_sm90.o: cuda_compile /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/instantiations/flash_bwd_hdim64_bf16_sm90.cu
+build /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/instantiations/flash_fwd_hdimall_bf16_sm90.o: cuda_compile /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/instantiations/flash_fwd_hdimall_bf16_sm90.cu
+build /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/instantiations/flash_fwd_hdimall_bf16_split_sm90.o: cuda_compile /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/instantiations/flash_fwd_hdimall_bf16_split_sm90.cu
+build /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/instantiations/flash_fwd_hdimdiff_bf16_sm90.o: cuda_compile /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/instantiations/flash_fwd_hdimdiff_bf16_sm90.cu
+build /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/instantiations/flash_fwd_hdimdiff_bf16_split_sm90.o: cuda_compile /mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/instantiations/flash_fwd_hdimdiff_bf16_split_sm90.cu
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+# ninja log v5
+638	29298	1761539087841814699	/mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/flash_prepare_scheduler.o	1ce9e86bd19b7d30
+638	84521	1761539143098054564	/mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/instantiations/flash_bwd_hdim64_bf16_sm90.o	338a6d15d24e0bda
+639	87515	1761539146150295103	/mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/instantiations/flash_fwd_hdimall_bf16_sm90.o	cc07b4751e9c77bd
+640	88480	1761539147065463244	/mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/instantiations/flash_fwd_hdimall_bf16_split_sm90.o	de98a99f83e57b8c
+637	95895	1761539154545070660	/mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/flash_api.o	e2aff8150340c537
+637	96604	1761539155205780874	/mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/flash_fwd_combine.o	db4e7f5e573c0e60
+641	101502	1761539160186260202	/mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/instantiations/flash_fwd_hdimdiff_bf16_split_sm90.o	199e72c6fe0a6fd7
+640	101715	1761539160220534592	/mnt/workspace/huangzitong/cogvideox-factory-concept_learning_timeshift_dpo/extensions/flash-attention-3/build/temp.linux-x86_64-cpython-310/instantiations/flash_fwd_hdimdiff_bf16_sm90.o	78ef100b921e2466
