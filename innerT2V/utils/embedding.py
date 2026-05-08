@@ -4,7 +4,6 @@ import torch
 from diffusers.models.embeddings import get_3d_rotary_pos_embed
 
 
-
 def get_resize_crop_region_for_grid(src, tgt_width, tgt_height):
     tw = tgt_width
     th = tgt_height
@@ -43,7 +42,6 @@ def prepare_rotary_positional_embeddings(
     base_size_height = sample_height // patch_size
 
     if patch_size_t is None:
-
         grid_crops_coords = get_resize_crop_region_for_grid(
             (grid_height, grid_width), base_size_width, base_size_height
         )
@@ -54,7 +52,6 @@ def prepare_rotary_positional_embeddings(
             temporal_size=num_frames,
         )
     else:
-
         base_num_frames = (num_frames + patch_size_t - 1) // patch_size_t
         freqs_cos, freqs_sin = get_3d_rotary_pos_embed(
             embed_dim=attention_head_dim,

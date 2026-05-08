@@ -29,6 +29,7 @@ data_args="\
 
 model_args="\
     --base_modules_dir=XXX \
+    --tuned_modules_dir=XXX \
     --num_videos_per_prompt=${N_VIDEOS_PER_PROMPT} \
     --seed 42 \
     --add_pos_prompt \
@@ -37,6 +38,5 @@ model_args="\
 
 
 
-
 args="--config_file=./nebula_configs/accelerate_configs.yaml --num_processes ${worker_count} \
-    innerT2V/test.py ${model_args} ${data_args}"
+    innerT2V/test_wanx21.py ${model_args} ${data_args}"

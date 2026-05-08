@@ -20,12 +20,6 @@ def unwrap_model(accelerator: Accelerator, model):
     return model
 
 
-def zero_module(module):
-    for p in module.parameters():
-        torch.nn.init.zeros_(p)
-    return module
-
-
 def summarize_model_info(model):
     def get_params_info(model):
         all_param = 0

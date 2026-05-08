@@ -6,8 +6,6 @@ from diffusers.schedulers.scheduling_dpm_cogvideox import (
     DDIMSchedulerOutput, CogVideoXDPMScheduler, register_to_config, randn_tensor
 )
 
-from utils import time_shift, alphas_cumprod_to_timestep
-
 
 class CogVideoXDPMImprovedScheduler(CogVideoXDPMScheduler):
 
@@ -50,26 +48,6 @@ class CogVideoXDPMImprovedScheduler(CogVideoXDPMScheduler):
         self._full_timesteps_before_shift = self.timesteps.clone()
         self._timesteps_before_shift = self.timesteps.clone()
 
-    def set_timesteps(self, num_inference_steps: int, device: Union[str, torch.device] = None, shift_alpha: Optional[float] = None):
-        super().set_timesteps(num_inference_steps, device)
-        if shift_alpha is None:
-            shift_alpha = self.config.shift_alpha
-        self._timesteps_before_shift = self.timesteps.clone()
-        self.timesteps = self.time_shift(
-            shift_alpha, self._timesteps_before_shift
-        ).to(device)
-
-    def time_shift(self, shift_alpha: float, timesteps: torch.Tensor) -> torch.Tensor:
-        if shift_alpha > 1:
-            sigmas = (1 - self.alphas_cumprod)
-            sigmas = time_shift(shift_alpha, sigmas)
-            timesteps = alphas_cumprod_to_timestep(
-                1 - sigmas,
-                self.alphas_cumprod,
-                self._full_timesteps_before_shift
-            )[self.config.num_train_timesteps - 1 - timesteps.cpu()]
-        return timesteps
-
     def step(
         self,
         model_output: torch.Tensor,
@@ -88,6 +66,7 @@ class CogVideoXDPMImprovedScheduler(CogVideoXDPMScheduler):
             raise ValueError(
                 "Number of inference steps is 'None', you need to run 'set_timesteps' after creating the scheduler"
             )
+
 
 
         timestep_prev = timestep_prev

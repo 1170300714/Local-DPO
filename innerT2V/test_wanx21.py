@@ -13,6 +13,7 @@ import torch
 import shutil
 import argparse
 from tqdm import tqdm
+from typing import Optional
 import safetensors
 import safetensors.torch
 def load_file(filename, device = "cpu"):
@@ -21,13 +22,9 @@ safetensors.torch.load_file = load_file
 
 from accelerate import Accelerator
 from diffusers.utils import export_to_video
-from transformers import (
-    T5EncoderModel,
-)
-from diffusers import AutoencoderKLCogVideoX
+from transformers import UMT5EncoderModel
+from diffusers import AutoencoderKLWan, WanPipeline, WanTransformer3DModel
 
-from diffusers.models.transformers.cogvideox_transformer_3d import CogVideoXTransformer3DModel
-from pipeline.pipeline_cogvideox_improved import CogVideoXImprovedPipeline
 from utils import summarize_model_info
 
 import logging
@@ -35,13 +32,13 @@ from utils.logger import get_logger, add_handler, set_default_formatter
 
 
 VALID_TUNED_MODULES = {
-    'text_encoder': T5EncoderModel,
-    'transformer': CogVideoXTransformer3DModel,
-    'vae': AutoencoderKLCogVideoX,
+    'text_encoder': UMT5EncoderModel,
+    'transformer':  WanTransformer3DModel,
+    'vae': AutoencoderKLWan,
 }
 
 SYSTEM_POSITIVE_PROMPTS = "highly detailed, perfect without deformations, ultra HD, "
-SYSTEM_NEGATIVE_PROMPTS = "blurring, dirty, messy, low quality, cartoon, drawing, anime"
+SYSTEM_NEGATIVE_PROMPTS = "Bright tones, overexposed, static, blurred details, subtitles, style, works, paintings, images, static, overall gray, worst quality, low quality, JPEG compression residue, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn faces, deformed, disfigured, misshapen limbs, fused fingers, still picture, messy background, three legs, many people in the background, walking backwards"
 
 def prepare_prompt(
     info: dict,
@@ -71,14 +68,14 @@ def main(cml_args=None, only_get_args: bool = False):
     parser.add_argument("--output_dir", type=str, required=True, help="Output directory for the generated video")
     parser.add_argument("--log_path", type=str, default=None, help="Log file path. If not set, use stdout")
 
-    parser.add_argument("--base_modules_dir", type=str, default="THUDM/CogVideoX1.5-5B")
+    parser.add_argument("--base_modules_dir", type=str, default="/path/to/your/wanx/model")
     parser.add_argument("--tuned_modules_dir", type=str, default=None)
     parser.add_argument("--lora_scale", type=float, default=1.0, help="Lora scale")
 
     parser.add_argument("--fps", type=int, default=24, help="Frames per second for the output video")
-    parser.add_argument('--height', type=int, default=768)
-    parser.add_argument('--width', type=int, default=1360)
-    parser.add_argument('--sample_frames', type=int, default=8)
+    parser.add_argument('--height', type=int, default=480)
+    parser.add_argument('--width', type=int, default=720)
+    parser.add_argument('--sample_frames', type=int, default=49)
     parser.add_argument('--num_videos_per_prompt', type=int, default=1)
     parser.add_argument('--seed', type=int, default=42)
 
@@ -111,10 +108,8 @@ def main(cml_args=None, only_get_args: bool = False):
         return args, parser
 
     accelerator = Accelerator()
-
     tuned_modules = {}
     has_lora = False
-
     if args.tuned_modules_dir is not None and os.path.isdir(args.tuned_modules_dir):
         for subdir in os.listdir(args.tuned_modules_dir):
             if subdir == 'lora': has_lora = True
@@ -126,12 +121,13 @@ def main(cml_args=None, only_get_args: bool = False):
             )
             tuned_modules[subdir] = module
 
-    pipe = CogVideoXImprovedPipeline.from_pretrained(
+    pipe = WanPipeline.from_pretrained(
         args.base_modules_dir,
         **tuned_modules,
         torch_dtype=torch.bfloat16,
         low_cpu_mem_usage=True,
     )
+    pipe.to(accelerator.device)
 
     print(f'has lora is: {has_lora}')
 
@@ -156,8 +152,12 @@ def main(cml_args=None, only_get_args: bool = False):
     pipe.text_encoder.to(dtype=torch.bfloat16)
     pipe.vae.to(dtype=torch.bfloat16)
 
-    pipe.vae.enable_slicing()
-    pipe.vae.enable_tiling()
+    print(f'Has lora is: {has_lora}')
+    assert has_lora is True
+    print(f'lora scale is: {lora_scale}')
+
+
+    logger.info(f"Model Info: {summarize_model_info(pipe.transformer)}")
 
     n_chunks = accelerator.num_processes
     prompts = [prompts[i::n_chunks] for i in range(n_chunks)][accelerator.process_index]
@@ -207,15 +207,16 @@ def main(cml_args=None, only_get_args: bool = False):
             height=args.height,
             width=args.width,
             num_frames=args.sample_frames,
-            use_dynamic_cfg=True,
-            guidance_scale=6.0,
+            guidance_scale=5.0,
             generator=torch.Generator().manual_seed(args.seed),
-        ).frames
-
-        for i, video in enumerate(videos):
-            output_file = os.path.join(args.output_dir, f"{file_basename}-{i}.mp4")
-            if args.num_videos_per_prompt == 1:
-                output_file = os.path.join(args.output_dir, f"{file_basename}.mp4")
+        ).frames[0]
+        if args.num_videos_per_prompt != 1:
+            for i, video in enumerate(videos):
+                output_file = os.path.join(args.output_dir, f"{file_basename}-{i}.mp4")
+                export_to_video(video, output_file, fps=args.fps)
+        else:
+            video = videos
+            output_file = os.path.join(args.output_dir, f"{file_basename}.mp4")
             export_to_video(video, output_file, fps=args.fps)
 
 
