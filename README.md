@@ -52,9 +52,14 @@ Aligning text-to-video diffusion models with human preferences is crucial for ge
    ```
 
 ## 🚀 Quick Start
-1. **Inference with pre-trained checkpoints:**
+You can follow the following steps to run the inference code:
+1. Download the base weights and pretrained checkpoints of CogVideoX-2B, CogVideoX-5B, and Wan2.2-1.3B:
    ```bash
-    bash local_launch.sh test \
+    bash download_ckpt.sh
+   ```
+2. Then, inference on prepared test prompts with pre-trained checkpoints:
+   ```bash
+    bash local_launch.sh test_base \
     1 \ # number of gpus
     OUTPUT_DIR \
     49 \ # number of frames per video
@@ -62,11 +67,52 @@ Aligning text-to-video diffusion models with human preferences is crucial for ge
     1280 \ # width    
     1 \ # number of video per prompt
     demo_data/prompt.json \ # prompt file
-    BASE_MODEL_PATH \
-    TUNED_MODEL_PATH \ # the path to the tuned model (lora)
-
+    BASE_MODEL_PATH \ # the path to the base model weights
+    TUNED_MODEL_PATH \ # the path to the tuned model weights (lora)
+   ```
+3. You can also perform inference on your custom prompts by replacing demo_data/prompt.json with your own. Note that the prompts file itself should be a JSON list, with the specific format as follows: 
+   ```json
+   [
+      {"long": "PROMPT1"},
+      {"long": "PROMPT2"},
+      ...
+   ]
    ```
 
+
+## 📚 Training Local DPO with Custom Data
+You can follow the following steps to generate locally corrupted video and train Local DPO with your own data:
+1. Prepare custom real video data and corresponding description, which will be used to generate corrupted data. The meta data of the data should be a JSONL file, with the specific format as follows: 
+   ```json
+   {"video_path": "PATH_TO_VIDEO1", "description": "DESCRIPTION1 (CAPTION)", "vid": "VIDEO_ID1"},
+   {"video_path": "PATH_TO_VIDEO2", "description": "DESCRIPTION2(CAPTION)", "vid": "VIDEO_ID2"},
+   ...
+   ```
+2. Then, generate corrupted video from real video with base model:
+   ```bash
+    bash local_launch.sh generate_corrupted_video \
+    1 \ # number of gpus
+    OUTPUT_DIR \
+    49 \ # number of frames per video
+    720 \ # height
+    1280 \ # width    
+    REAL_VIDEO_META_DATA \ # your real video meta data
+    BASE_MODEL_PATH \ # the path to the base model weights
+   ```
+   The resized real videos, generated videos and random 3D maskswill be saved in OUTPUT_DIR. The prefixname of each corrupted video and 3D mask are the same as the video's name.
+3. Create metadata for Local DPO training data. The metadata should be JSONL file, whose specific format as follows: 
+   ```json
+   {"height_win": The height of the winner sample, "width_win": The width of the winner sample, "height_lose": The height of the loser sample, "width_lose": The width of the loser sample, "fps_win": The fps of the winner sample, "fps_lose": The fps of the loser sample, "duration_win": The total seconds of the winner sample, "duration_lose": The total seconds of the loser sample, "pos_num_frames": The number of frames in the winner sample, "neg_num_frames": The number of frames in of the loser sample, "pos_video_path": The path of the winner sample, "neg_video_path": The path of the loser sample, "mask": The genearted 3D mask of the winner sample, "yita": The strenth of inversion noise, "gen_caption": video description (caption)},
+   ...
+   ```
+4. Train model:
+   ```bash
+    bash local_launch.sh train_base \
+    1 \ # number of gpus
+    OUTPUT_DIR \
+    META_DATA_PATH \ # your metadata
+    BASE_MODEL_PATH \ # the path to the base model weights
+   ```
 ## 📝  Citation
 ```bibtex
 @article{huang2026mind,

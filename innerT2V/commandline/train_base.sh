@@ -1,24 +1,16 @@
-resource_root=${1:-"XXX"}
+worker_count=$1
+OUTPUT_DIR=$2
+DATA_INFO=$3
+BASE_DIR=$4
 
-job_name=job
-worker_count=1
 
 gradacc_steps=4
 lr=1e-5
-
-EXP_ROOT="${resource_root}/xxx"
-DATA_INFO="\
-    XXX \
-"
-
-
-
 max_train_steps=1000000
 checkpointing_steps=20
 lr_schedule="constant"
 optimizer="adamw"
 lr_warmup_steps=10
-
 beta_dpo=5000
 sft_lambda=0.1
 dpo_lambda=1.0
@@ -26,13 +18,11 @@ mask_dpo_lambda=1.0
 sft_lambda_mask=0.1
 
 model_args="\
-    --pretrained_model_name_or_path XXX \
-    --ref_model_name_or_path XXX \
+    --pretrained_model_name_or_path ${BASE_DIR} \
+    --ref_model_name_or_path ${BASE_DIR}  \
     --lora_rank 64 --lora_alpha 128 \
     --resume_from_checkpoint latest \
 "
-
-
 
 data_args="\
     --data_infos ${DATA_INFO} \
@@ -52,8 +42,8 @@ data_args="\
 log_args="\
     --report_to tensorboard \
     --nccl_timeout 7200 \
-    --log_base ${EXP_ROOT}/${job_name} \
-    --output_dir ${EXP_ROOT}/${job_name} \
+    --log_base ${OUTPUT_DIR} \
+    --output_dir ${OUTPUT_DIR} \
 "
 
 train_args="\
@@ -84,7 +74,7 @@ train_args="\
     --sft_lambda_mask ${sft_lambda_mask} \
 "
 
-args="--config_file=./nebula_configs/accelerate_configs.yaml --num_processes ${worker_count} \
+args="--num_processes ${worker_count} \
     innerT2V/train.py ${model_args} ${data_args} ${log_args} ${train_args}"
 
 echo "Args is: ${args}"

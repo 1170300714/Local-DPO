@@ -1,23 +1,15 @@
-resource_root=${1:-"XXX"}
-
-job_name=XXX
-worker_count=1
+worker_count=$1
+OUTPUT_DIR=$2
+DATA_INFO=$3
+BASE_DIR=$4
 
 gradacc_steps=4
 lr=5e-6
-
-EXP_ROOT="${resource_root}/xxx"
-DATA_INFO="\
-    XXX \
-"
-
-
 max_train_steps=10000
 checkpointing_steps=20
 lr_schedule="constant"
 optimizer="adamw"
 lr_warmup_steps=10
-
 beta_dpo=5000
 sft_lambda=0.1
 dpo_lambda=1.0
@@ -25,8 +17,8 @@ mask_dpo_lambda=1.0
 sft_lambda_mask=0.1
 
 model_args="\
-    --wanx_pretrained_model_name_or_path XXX \
-    --wanx_ref_model_name_or_path XXX \
+    --wanx_pretrained_model_name_or_path ${BASE_DIR} \
+    --wanx_ref_model_name_or_path ${BASE_DIR} \
     --lora_rank 64 --lora_alpha 128 \
 "
 
@@ -48,8 +40,8 @@ data_args="\
 log_args="\
     --report_to tensorboard \
     --nccl_timeout 7200 \
-    --log_base ${EXP_ROOT}/${job_name} \
-    --output_dir ${EXP_ROOT}/${job_name} \
+    --log_base ${OUTPUT_DIR} \
+    --output_dir ${OUTPUT_DIR} \
 "
 
 train_args="\
@@ -80,7 +72,7 @@ train_args="\
     --sft_lambda_mask ${sft_lambda_mask} \
 "
 
-args="--config_file=./nebula_configs/accelerate_configs.yaml --num_processes ${worker_count} \
+args="--num_processes ${worker_count} \
     innerT2V/train_wanx21.py ${model_args} ${data_args} ${log_args} ${train_args}"
 
 echo "Args is: ${args}"
