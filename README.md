@@ -18,8 +18,8 @@ We are actively working on releasing all components of DLDPO. Stay tuned for upd
 
 - ✅ **Release Inference Code & test data**: Open-source the inference scripts and test data.
 - [ ] **Release Pre-trained Checkpoints**: Full release of LocalDPO fine-tuned weights for CogvideoX-2B, CogvideoX-5B, and Wan2.2-1.3B.
-- [ ] **Release Corrupted Video Generation Script**: Code to synthesize locally corrupted videos for constructing preference pairs.
-- [ ] **Release Training Code**: Complete training pipeline for LocalDPO.
+- ✅ **Release Corrupted Video Generation Script**: Code to synthesize locally corrupted videos for constructing preference pairs.
+- ✅ **Release Training Code**: Complete training pipeline for LocalDPO.
 - [ ] **Release Curated Pexels Dataset**: The subset of Pexels videos collected and annotated for local detail preference learning.
 
 
@@ -102,21 +102,23 @@ You can follow the following steps to generate locally corrupted video and train
    The resized real videos, generated videos and random 3D maskswill be saved in OUTPUT_DIR. The prefixname of each corrupted video and 3D mask are the same as the video's name.
 3. Create metadata for Local DPO training data. The metadata should be JSONL file, whose specific format as follows: 
    ```json
-   {"height_win": "The height of the winner sample (int)", 
-   "width_win": "The width of the winner sample (int)", 
-   "height_lose": "The height of the loser sample (int)", 
-   "width_lose": "The width of the loser sample (int)", 
-   "fps_win": "The fps of the winner sample (int)", 
-   "fps_lose": "The fps of the loser sample (int)", 
-   "duration_win": "The total seconds of the winner sample (float)", 
-   "duration_lose": "The total seconds of the loser sample (float)", 
-   "pos_num_frames": "The number of frames in the winner sample (int)", 
-   "neg_num_frames": "The number of frames in of the loser sample (int)", 
-   "pos_video_path": "The path of the winner sample (str)", 
-   "neg_video_path": "The path of the loser sample (str)", 
-   "mask": "The path of genearted 3D mask of the winner sample (str)", 
-   "yita": "The strenth of inversion noise (float)", 
-   "gen_caption": "video description (str)"},
+   {
+      "height_win": "The height of the winner sample (int)", 
+      "width_win": "The width of the winner sample (int)", 
+      "height_lose": "The height of the loser sample (int)", 
+      "width_lose": "The width of the loser sample (int)", 
+      "fps_win": "The fps of the winner sample (int)", 
+      "fps_lose": "The fps of the loser sample (int)", 
+      "duration_win": "The total seconds of the winner sample (float)", 
+      "duration_lose": "The total seconds of the loser sample (float)", 
+      "pos_num_frames": "The number of frames in the winner sample (int)", 
+      "neg_num_frames": "The number of frames in of the loser sample (int)", 
+      "pos_video_path": "The path of the winner sample (str)", 
+      "neg_video_path": "The path of the loser sample (str)", 
+      "mask": "The path of genearted 3D mask of the winner sample (str)", 
+      "yita": "The strenth of inversion noise (float)", 
+      "gen_caption": "video description (str)"
+   },
    {...},
    {...},
    ...
