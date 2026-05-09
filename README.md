@@ -59,16 +59,16 @@ You can follow the following steps to run the inference code:
    ```
 2. Then, inference on prepared test prompts with pre-trained checkpoints:
    ```bash
-    bash local_launch.sh test_base \
-    1 \ # number of gpus
-    OUTPUT_DIR \
-    49 \ # number of frames per video
-    720 \ # height
-    1280 \ # width    
-    1 \ # number of video per prompt
-    demo_data/prompt.json \ # prompt file
-    BASE_MODEL_PATH \ # the path to the base model weights
-    TUNED_MODEL_PATH \ # the path to the tuned model weights (lora)
+   bash local_launch.sh test_base \
+      1 \ # number of gpus
+      OUTPUT_DIR \
+      49 \ # number of frames per video
+      720 \ # height
+      1280 \ # width    
+      1 \ # number of video per prompt
+      demo_data/prompt.json \ # prompt file
+      BASE_MODEL_PATH \ # the path to the base model weights
+      TUNED_MODEL_PATH \ # the path to the tuned model weights (lora)
    ```
 3. You can also perform inference on your custom prompts by replacing demo_data/prompt.json with your own. Note that the prompts file itself should be a JSON list, with the specific format as follows: 
    ```json
@@ -90,14 +90,14 @@ You can follow the following steps to generate locally corrupted video and train
    ```
 2. Then, generate corrupted video from real video with base model:
    ```bash
-    bash local_launch.sh generate_corrupted_video \
-    1 \ # number of gpus
-    OUTPUT_DIR \
-    49 \ # number of frames per video
-    720 \ # height
-    1280 \ # width    
-    REAL_VIDEO_META_DATA \ # your real video meta data
-    BASE_MODEL_PATH \ # the path to the base model weights
+   bash local_launch.sh generate_corrupted_video \
+      1 \ # number of gpus
+      OUTPUT_DIR \
+      49 \ # number of frames per video
+      720 \ # height
+      1280 \ # width    
+      REAL_VIDEO_META_DATA \ # your real video meta data
+      BASE_MODEL_PATH \ # the path to the base model weights
    ```
    The resized real videos, generated videos and random 3D maskswill be saved in OUTPUT_DIR. The prefixname of each corrupted video and 3D mask are the same as the video's name.
 3. Create metadata for Local DPO training data. The metadata should be JSONL file, whose specific format as follows: 
@@ -125,11 +125,11 @@ You can follow the following steps to generate locally corrupted video and train
    ```
 4. Train model:
    ```bash
-    bash local_launch.sh train_base \
-    1 \ # number of gpus
-    OUTPUT_DIR \
-    META_DATA_PATH \ # your metadata
-    BASE_MODEL_PATH \ # the path to the base model weights
+   bash local_launch.sh train_base \
+      1 \ # number of gpus
+      OUTPUT_DIR \
+      META_DATA_PATH \ # your metadata
+      BASE_MODEL_PATH \ # the path to the base model weights
    ```
 ## 📝  Citation
 ```bibtex
