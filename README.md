@@ -14,10 +14,10 @@
 
 ## To-Do List
 
-We are actively working on releasing all components of DLDPO. Stay tuned for updates!
+We are actively working on releasing all components of LocalDPO. Stay tuned for updates!
 
 - ✅ **Release Inference Code & test data**: Open-source the inference scripts and test data.
-- [ ] **Release Pre-trained Checkpoints**: Full release of LocalDPO fine-tuned weights for CogvideoX-2B, CogvideoX-5B, and Wan2.2-1.3B.
+- \[ \] **Release Pre-trained Checkpoints**: Full release of LocalDPO fine-tuned weights for CogvideoX-2B, CogvideoX-5B, and Wan2.2-1.3B.
 - ✅ **Release Corrupted Video Generation Script**: Code to synthesize locally corrupted videos for constructing preference pairs.
 - ✅ **Release Training Code**: Complete training pipeline for LocalDPO.
 - [ ] **Release Curated Pexels Dataset**: The subset of Pexels videos collected and annotated for local detail preference learning.
