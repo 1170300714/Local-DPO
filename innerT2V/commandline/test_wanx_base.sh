@@ -1,24 +1,19 @@
-RESOURCEDIR=XXX
-
-job_name=job
-worker_count=1
-
-EXP_ROOT=XXX
-FRAME=49
-HEIGHT=480
-WIDTH=720
-
-N_VIDEOS_PER_PROMPT=1
-
+worker_count=$1
+OUTPUT_DIR=$2
+FRAME=${3:-49}
+HEIGHT=${4:-480}
+WIDTH=${5:-720}
+N_VIDEOS_PER_PROMPT=$6
 
 PROMPT_ARGS="\
-    --prompts_file=XXX \
+    --prompts_file=$7 \
 "
-
+BASE_DIR=$8
+TUNED_DIR=$9
 
 data_args="\
     ${PROMPT_ARGS} \
-    --output_dir=XXX \
+    --output_dir=${OUTPUT_DIR} \
     --fps=24 \
     --height=${HEIGHT} \
     --width=${WIDTH} \
@@ -28,8 +23,8 @@ data_args="\
 
 
 model_args="\
-    --base_modules_dir=XXX \
-    --tuned_modules_dir=XXX \
+    --base_modules_dir=${BASE_DIR} \
+    --tuned_modules_dir=$TUNED_DIR \
     --num_videos_per_prompt=${N_VIDEOS_PER_PROMPT} \
     --seed 42 \
     --add_pos_prompt \
@@ -38,5 +33,5 @@ model_args="\
 
 
 
-args="--config_file=./nebula_configs/accelerate_configs.yaml --num_processes ${worker_count} \
+args="--num_processes ${worker_count} \
     innerT2V/test_wanx21.py ${model_args} ${data_args}"
