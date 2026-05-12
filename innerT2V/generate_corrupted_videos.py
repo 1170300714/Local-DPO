@@ -56,7 +56,7 @@ from torchvision.transforms.functional import resize
 import numpy as np
 from datasets import Video
 
-from dataset.utils import download_aidata_content
+
 
 
 import decord
@@ -144,10 +144,8 @@ class T2VDataset():
     def _load_video(self, video_path, n_target_frames):
         video_obj = video_path
         if isinstance(video_path, dict):
-            if 'path' in video_path and video_path['path'].startswith('oss://'):
-                target_video = download_aidata_content(video_path)
-            else:
-                target_video = Video().decode_example(video_path)
+
+            target_video = Video().decode_example(video_path)
             video_bytes = target_video['bytes']
             video_obj = io.BytesIO(video_bytes)
         elif isinstance(video_path, str):

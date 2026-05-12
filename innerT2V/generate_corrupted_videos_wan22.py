@@ -49,7 +49,6 @@ from torchvision.transforms import InterpolationMode
 from torchvision.transforms.functional import resize
 import numpy as np
 from datasets import Video
-from dataset.utils import download_aidata_content
 from diffusers import AutoencoderKLWan
 from pipeline.pipeline_wan22_improved_dense_dpo_mask import WanLocalDPOPipeline
 
@@ -146,10 +145,8 @@ class T2VDataset():
     def _load_video(self, video_path, n_target_frames):
         video_obj = video_path
         if isinstance(video_path, dict):
-            if 'path' in video_path and video_path['path'].startswith('oss://'):
-                target_video = download_aidata_content(video_path)
-            else:
-                target_video = Video().decode_example(video_path)
+      ]
+            target_video = Video().decode_example(video_path)
             video_bytes = target_video['bytes']
             video_obj = io.BytesIO(video_bytes)
         elif isinstance(video_path, str):
@@ -280,7 +277,7 @@ def sample_with_interval(min_val, max_val, interval):
 def main(cml_args=None, only_get_args: bool = False):
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--data_info", type=str, default='/mnt/workspace/shuilang/data/traindata/t2v/raw/pexels_sft_data_first2s_recap.jsonl', help="data info for dense-dpo video preparation")
+    parser.add_argument("--data_info", type=str, default=None, help="data info for dense-dpo video preparation")
     parser.add_argument("--output_dir", type=str, default='dense_dpo_videos_inpainting', help="Output directory for the generated video")
     parser.add_argument("--log_path", type=str, default=None, help="Log file path. If not set, use stdout")
 
