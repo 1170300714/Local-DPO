@@ -3,13 +3,14 @@
 [![CVPR 2026](https://img.shields.io/badge/CVPR-2026-blue.svg)](https://cvpr.thecvf.com/)
 [![ArXiv](https://img.shields.io/badge/arXiv-2601.04068-b31b1b.svg)](https://arxiv.org/abs/2601.04068)
 [![Project Page](https://img.shields.io/badge/Project-Page-green.svg)](https://1170300714.github.io/LocalDPO/)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Space-yellow)](https://huggingface.co/cszthuang/Local_DPO)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 
 > **Official PyTorch implementation of "Mind the Generative Details: Direct Localized Detail Preference Optimization for Video Diffusion Models" (CVPR 2026).**
 
 ## 📢 News
-- **[2026.05]** We released the inference code.
+- **[2026.05]** We released the training code, inference code and pretrained lora weights.
 - **[2026.02]** Our paper is accepted to **CVPR 2026**! 🎉
 
 ## To-Do List
@@ -17,10 +18,9 @@
 We are actively working on releasing all components of LocalDPO. Stay tuned for updates!
 
 - ✅ **Release Inference Code & test data**: Open-source the inference scripts and test data.
-- \[ \] **Release Pre-trained Checkpoints**: Full release of LocalDPO fine-tuned weights for CogvideoX-2B, CogvideoX-5B, and Wan2.2-1.3B.
+- ✅  **Release Pre-trained Checkpoints**: Full release of LocalDPO fine-tuned weights for CogvideoX-2B, CogvideoX-5B, and Wan2.2-1.3B.
 - ✅ **Release Corrupted Video Generation Script**: Code to synthesize locally corrupted videos for constructing preference pairs.
 - ✅ **Release Training Code**: Complete training pipeline for LocalDPO.
-- [ ] **Release Curated Pexels Dataset**: The subset of Pexels videos collected and annotated for local detail preference learning.
 
 
 ## 📖 Abstract
@@ -53,10 +53,8 @@ Aligning text-to-video diffusion models with human preferences is crucial for ge
 
 ## 🚀 Quick Start
 You can follow the following steps to run the inference code:
-1. Download the base weights and pretrained checkpoints of CogVideoX-2B, CogVideoX-5B, and Wan2.2-1.3B:
-   ```bash
-    bash download_ckpt.sh
-   ```
+1. Download the base weights and pretrained checkpoints of CogVideoX-2B, CogVideoX-5B, and Wan2.2-1.3B from [here](https://huggingface.co/cszthuang/Local_DPO)
+
 2. Then, inference on prepared test prompts with pre-trained checkpoints:
    ```bash
    bash local_launch.sh test_base \
@@ -140,6 +138,12 @@ You can follow the following steps to generate locally corrupted video and train
   year={2026}
 }
 ```
+
+
+## Contact
+If you have any questions, please contact us via
+- 1017141005@qq.com
+- richu@mail.ustc.edu.cn
 
 ## 🙏  Acknowledgements
 This codebase builds upon several excellent open-source projects:
