@@ -130,6 +130,7 @@ You can follow the following steps to generate locally corrupted video and train
       BASE_MODEL_PATH \ # the path to the base model weights
    ```
 ## 📝  Citation
+If our work inspires your research or some part of the codes are useful for your work, please cite our paper:
 ```bibtex
 @article{huang2026mind,
   title={Mind the Generative Details: Direct Localized Detail Preference Optimization for Video Diffusion Models},
